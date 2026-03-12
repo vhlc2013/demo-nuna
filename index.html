@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Nuna SpA | Construcción & Retail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --brand-color: #e11d48;
+            --brand-light: #fff1f2;
+            --text-dark: #0f172a;
+            --text-gray: #475569;
+            --bg-body: #ffffff;
+            --nav-height: 70px; /* Reducido para ganar espacio vertical */
+        }
+
+        /* Reset Básico */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Urbanist', sans-serif;
+            color: var(--text-gray);
+            -webkit-font-smoothing: antialiased;
+            padding-top: var(--nav-height);
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVEGACIÓN */
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-logo { font-weight: 900; font-size: 20px; color: var(--text-dark); text-decoration: none; }
+        .brand-accent { color: var(--brand-color); }
+
+        .nav-links { display: none; gap: 20px; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--text-dark); 
+            font-weight: 700; 
+            font-size: 12px; 
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--brand-color); }
+
+        .menu-toggle { display: block; font-size: 22px; cursor: pointer; color: var(--text-dark); }
+
+        /* Menú Mobile Drawer */
+        .nav-mobile {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 80%; max-width: 260px;
+            height: 100vh;
+            background: white;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 25px;
+            gap: 20px;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-mobile.active { right: 0; }
+        .nav-mobile a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .close-menu { align-self: flex-end; font-size: 26px; cursor: pointer; margin-bottom: 15px; color: var(--brand-color); }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); display: none; z-index: 2500;
+            backdrop-filter: blur(2px);
+        }
+        .overlay.active { display: block; }
+
+        @media (min-width: 992px) {
+            .nav-links { display: flex; }
+            .menu-toggle { display: none; }
+        }
+
+        /* ESTRUCTURA DE SLIDES REDUCIDA (Base: 896px) */
+        .presentation { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        
+        .slide-container {
+            width: 85%;
+            max-width: 896px; /* Tamaño compacto aprobado */
+            padding: 60px 0;
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            scroll-margin-top: calc(var(--nav-height) + 20px);
+        }
+
+        /* =========================================
+           AJUSTE EXCLUSIVO PARA LA PRIMERA PÁGINA
+           Se agranda un 10% (max-width: 1000px)
+        ========================================= */
+        #slide1 { 
+            opacity: 1; transform: translateY(0); 
+            width: 90%; /* Más ancho responsivo */
+            max-width: 1000px; /* Incrementado un 10% */
+            min-height: calc(85vh - var(--nav-height));
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+
+        #slide1 h1 {
+            font-size: clamp(45px, 8.8vw, 77px); /* Tipografía 10% más grande */
+            margin-bottom: 18px;
+        }
+
+        #slide1 p.letter-spacing {
+            font-size: 14px; /* Incrementado */
+        }
+
+        #slide1 .hero-divider {
+            height: 4.5px; /* Ligeramente más grueso */
+            width: 70px; /* Más ancho */
+        }
+
+        #slide1 p.hero-desc {
+            font-size: clamp(20px, 3.3vw, 26px); /* Tipografía 10% más grande */
+        }
+        /* ========================================= */
+
+        .slide-title {
+            font-size: clamp(24px, 4vw, 34px);
+            margin-bottom: 30px;
+            border-left: 6px solid var(--brand-color);
+            padding-left: 15px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .two-column { display: grid; grid-template-columns: 1fr; gap: 30px; align-items: center; }
+        @media (min-width: 768px) { .two-column { grid-template-columns: 1.1fr 0.9fr; } }
+
+        /* IMÁGENES COMPACTAS */
+        .image-wrapper { 
+            border-radius: 10px; 
+            overflow: hidden; 
+            height: 280px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08); 
+        }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* PORTAFOLIO GRID REDUCIDO */
+        .photo-grid-retail { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .photo-grid-retail img { width: 100%; height: 150px; object-fit: cover; border-radius: 6px; }
+        @media (min-width: 768px) {
+            .photo-grid-retail { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 160px); }
+            .photo-span-2 { grid-column: span 2; grid-row: span 2; }
+            .photo-span-2 img { height: 100% !important; }
+        }
+
+        /* SECCIÓN OSCURA NIU SUSHI */
+        #slide4.slide-container { 
+            max-width: 100%; width: 100%; 
+            background: var(--text-dark); 
+            color: white; 
+            display: flex; justify-content: center;
+        }
+        #slide4 > .two-column { max-width: 896px; width: 85%; }
+        #slide4 .slide-title { color: white; }
+
+        /* WHATSAPP */
+        .wsp-button {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #25d366; color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 26px; box-shadow: 0 8px 20px rgba(37,211,102,0.3);
+            z-index: 1500; text-decoration: none; transition: 0.3s;
+        }
+
+        /* CONTACTO */
+        .contact-form { 
+            display: flex; flex-direction: column; gap: 12px; 
+            background: #fff; padding: 25px; border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; 
+        }
+        .contact-form input, .contact-form textarea { 
+            padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; 
+            font-family: inherit; font-size: 14px; outline: none; background: #f8fafc; 
+        }
+        .btn-send { 
+            background: var(--brand-color); color: white; border: none; 
+            padding: 15px; border-radius: 6px; font-weight: 900; 
+            cursor: pointer; text-transform: uppercase; font-size: 14px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<nav class="navbar">
+    <a href="#" class="nav-logo">NUNA <span class="brand-accent">SPA</span></a>
+    
+    <div class="nav-links">
+        <a href="#slide2">Nosotros</a>
+        <a href="#slide3">Portafolio</a>
+        <a href="#slide6">Servicios</a>
+        <a href="#contacto">Contacto</a>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+        <i class="fa-solid fa-bars-staggered"></i>
+    </div>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile">
+    <div class="close-menu" id="close-menu"><i class="fa-solid fa-xmark"></i></div>
+    <a href="#slide2">Nosotros</a>
+    <a href="#slide3">Portafolio</a>
+    <a href="#slide6">Servicios</a>
+    <a href="#contacto">Contacto</a>
+</div>
+
+<a href="https://wa.me/56988085210" class="wsp-button" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<div class="presentation">
+    <div class="slide-container" id="slide1">
+        <svg style="width: 143px; margin-bottom: 30px;" viewBox="0 0 400 300">
+            <rect x="140" y="50" width="80" height="150" rx="4" fill="#e11d48"/>
+            <path d="M70 200 L110 200 L110 160 L180 120 L250 160 L250 200 L330 200" fill="none" stroke="black" stroke-width="4"/>
+            <path d="M180 120 L180 60 L240 60 L240 145" fill="none" stroke="black" stroke-width="4"/>
+        </svg>
+        <h1 style="color: var(--text-dark); line-height: 0.85;">NUNA <span class="brand-accent">SPA</span></h1>
+        <p class="letter-spacing" style="letter-spacing: 6px; text-transform: uppercase; font-weight: 800; color: #64748b; margin-top: 10px;">Constructora e Inmobiliaria</p>
+        <div class="hero-divider" style="background: var(--brand-color); margin: 35px auto;"></div>
+        <p class="hero-desc" style="font-weight: 500; color: var(--text-dark); max-width: 660px;">Excelencia en Habilitación Retail y Obras Corporativas</p>
+    </div>
+
+    <div class="slide-container" id="slide2">
+        <h2 class="slide-title">Quiénes Somos</h2>
+        <div class="two-column">
+            <div>
+                <p style="font-size: 17px; line-height: 1.5; color: var(--text-dark); margin-bottom: 15px;">Transformamos espacios comerciales con <strong>más de 17 años de experiencia</strong> técnica en todo Chile.</p>
+                <p style="font-size: 16px; line-height: 1.5;">Desde Santa Cruz, brindamos logística ágil para proyectos de alta exigencia en retail.</p>
+            </div>
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800" alt="Nosotros">
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container" id="slide3">
+        <h2 class="slide-title">Portafolio Retail</h2>
+        <div class="photo-grid-retail">
+            <div class="photo-span-2"><img src="https://i.imgur.com/fge80fD.jpeg" alt="Retail 1"></div>
+            <img src="https://i.imgur.com/3ai2677.jpeg" alt="Retail 2">
+            <img src="https://i.imgur.com/JKxVfue.jpeg" alt="Retail 3">
+            <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=600" alt="Retail 4">
+            <img src="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=600" alt="Retail 5">
+        </div>
+    </div>
+
+    <div class="slide-container" id="slide4">
+        <div class="two-column">
+            <div style="padding: 20px 0;">
+                <h2 class="slide-title">Gastronomía</h2>
+                <h3 class="brand-accent" style="font-size: 32px; font-weight: 900; margin-bottom: 15px;">Niu Sushi</h3>
+                <p style="font-size: 17px; opacity: 0.9;">Habilitación integral de plantas y salones de alta rotación.</p>
+            </div>
+            <div class="image-wrapper" style="height: 300px;">
+                <img src="https://i.imgur.com/L1OKxic.jpeg" alt="Niu Sushi">
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-container" id="slide6">
+        <h2 class="slide-title">Servicios</h2>
+        <div class="two-column">
+            <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800" alt="Ingeniería"></div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 15px;">
+                <li style="font-size: 16px; display: flex; gap: 12px;"><i class="fa-solid fa-bolt brand-accent"></i> <strong>Electricidad SEC</strong></li>
+                <li style="font-size: 16px; display: flex; gap: 12px;"><i class="fa-solid fa-snowflake brand-accent"></i> <strong>Climatización HVAC</strong></li>
+                <li style="font-size: 16px; display: flex; gap: 12px;"><i class="fa-solid fa-fire-extinguisher brand-accent"></i> <strong>Seguridad e Incendio</strong></li>
+                <li style="font-size: 16px; display: flex; gap: 12px;"><i class="fa-solid fa-hammer brand-accent"></i> <strong>Obras Civiles</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide-container" id="contacto" style="border-bottom: 15px solid var(--brand-color); padding-bottom: 60px;">
+        <h2 class="slide-title">Contacto</h2>
+        <div class="two-column">
+            <div>
+                <h3 style="font-size: 24px; color: var(--text-dark); font-weight: 900; margin-bottom: 5px;">Cristian Correa</h3>
+                <p style="font-size: 22px; font-weight: 800; color: var(--brand-color); margin-bottom: 20px;">+56 9 8808 5210</p>
+                <p style="font-size: 15px; margin-bottom: 5px;"><i class="fa-solid fa-envelope brand-accent"></i> nunaconstructora@gmail.com</p>
+                <p style="font-size: 15px;"><i class="fa-solid fa-location-dot brand-accent"></i> Santa Cruz, Chile</p>
+            </div>
+            <form class="contact-form">
+                <input type="text" placeholder="Nombre" required>
+                <input type="email" placeholder="Correo" required>
+                <textarea placeholder="Tu proyecto..." rows="3" required></textarea>
+                <button type="submit" class="btn-send">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const navMobile = document.getElementById('nav-mobile');
+    const overlay = document.getElementById('overlay');
+    const navLinks = document.querySelectorAll('.nav-mobile a');
+
+    const openMenu = () => {
+        navMobile.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeMenuFunc = () => {
+        navMobile.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    };
+
+    menuToggle.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFunc);
+    overlay.addEventListener('click', closeMenuFunc);
+    navLinks.forEach(link => link.addEventListener('click', closeMenuFunc));
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.slide-container').forEach(slide => {
+        if(slide.id !== 'slide1') observer.observe(slide);
+    });
+</script>
+
+</body>
+</html>
